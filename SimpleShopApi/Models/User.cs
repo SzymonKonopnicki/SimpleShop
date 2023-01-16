@@ -9,13 +9,13 @@ public partial class User
 
     public string LastName { get; set; } = null!;
 
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
 
-    public string? Mail { get; set; }
+    public string Mail { get; set; }
 
-    public string? Password { get; set; }
+    public string Password { get; set; }
 
-    public int UserRoleId { get; set; }
+    public int UserRoleId { get; set; } = 1;
 
     public virtual UsersRole UserRole { get; set; } = null!;
 }
