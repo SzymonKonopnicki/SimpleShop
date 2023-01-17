@@ -16,7 +16,7 @@ namespace SimpleShopApi.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductDto>> ProductsGetAsync()
+        public async Task<IEnumerable<ProductDto>> ProductsGetAllAsync()
         {
             List<Product> productsDb = _dbContext.Products.ToList();
             if (productsDb == null)
@@ -24,7 +24,7 @@ namespace SimpleShopApi.Services
 
             return _mapper.Map<IEnumerable<ProductDto>>(productsDb);
         }
-        public async Task<ProductDto> ProductGetAsync(int id)
+        public async Task<ProductDto> ProductGetByIdAsync(int id)
         {
             Product productDb = _dbContext.Products
                 .Where(x => x.ProductId == id)
@@ -35,7 +35,7 @@ namespace SimpleShopApi.Services
 
             return _mapper.Map<ProductDto>(productDb);
         }
-        public async Task<ProductDto> ProductGetAsync(string name)
+        public async Task<ProductDto> ProductGetByNameAsync(string name)
         {
             Product productDb = _dbContext.Products
                 .Where(x => x.Name == name)
@@ -84,7 +84,7 @@ namespace SimpleShopApi.Services
             return _mapper.Map<ProductDto>(productAddDto);
         }
 
-        public async Task<IEnumerable<ProductDto>> ProductsUpdateAsync(IEnumerable<ProductUpdataDto> productsUpdateDto)
+        public async Task<IEnumerable<ProductDto>> ProductsUpdataAsync(IEnumerable<ProductUpdataDto> productsUpdateDto)
         {
             var products = new List<Product>();
             foreach (var updateProductDto in productsUpdateDto)
@@ -107,7 +107,7 @@ namespace SimpleShopApi.Services
 
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
-        public async Task<ProductDto> ProductUpdateAsync(ProductUpdataDto productUpdateDto)
+        public async Task<ProductDto> ProductUpdataAsync(ProductUpdataDto productUpdateDto)
         {
             var productDb = _dbContext.Products
                 .Where(x => x.Name == productUpdateDto.Name)
@@ -126,7 +126,7 @@ namespace SimpleShopApi.Services
             return _mapper.Map<ProductDto>(productDb);
         }
 
-        public async Task ProductDeleteAsync(IEnumerable<string> names)
+        public async Task ProductsDeleteAsync(IEnumerable<string> names)
         {
             var products = new List<Product>();
             foreach (var name in names)

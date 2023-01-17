@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleShopApi.Interfaces;
 using SimpleShopApi.Models;
+using SimpleShopApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddDbContext<ProductsDbContext>(connection =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IProductService, ProductService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
