@@ -56,7 +56,7 @@ namespace SimpleShopApi.Services
                     .Where(x => x.Name == addProductDto.Name)
                     .FirstOrDefault();
 
-                if (addProductDto.Name != productDb.Name)
+                if (productDb != null && addProductDto.Name != productDb.Name)
                     products.Add(_mapper.Map<Product>(addProductDto));
             }
 
