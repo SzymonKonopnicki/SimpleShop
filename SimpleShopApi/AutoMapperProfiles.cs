@@ -11,6 +11,7 @@ namespace SimpleShopApi
             CreateMap<Product, ProductAddDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Product, ProductUpdataDto>().ReverseMap();
+            CreateMap<ProductDto, ProductAddDto>().ReverseMap();
         }
     }
 }
