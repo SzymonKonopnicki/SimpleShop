@@ -2,6 +2,7 @@
 using SimpleShopApi.Interfaces;
 using SimpleShopApi.Models.DtoModels;
 using SimpleShopApi.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SimpleShopApi.Services
 {
@@ -56,32 +57,16 @@ namespace SimpleShopApi.Services
                     .Where(x => x.Name == addProductDto.Name)
                     .FirstOrDefault();
 
-                if (productDb != null && addProductDto.Name != productDb.Name)
+                if (productDb == null)
                     products.Add(_mapper.Map<Product>(addProductDto));
             }
 
-            if (products == null)
+            if (products.IsNullOrEmpty())
                 throw new Exception("Middleware - w8 in progress.\tWrong product");
 
             _dbContext.Products.AddRange(products);
             _dbContext.SaveChanges();
-
             return _mapper.Map<IEnumerable<ProductDto>>(products);
-        }
-        public async Task<ProductDto> ProductCreateAsync(ProductAddDto productAddDto)
-        {
-            Product productDb = _dbContext.Products
-                .Where(x => x.Name == productAddDto.Name)
-                .FirstOrDefault();
-
-            if (productDb.Name == productAddDto.Name)
-                throw new Exception("Middleware - w8 in progress.\tWrong product");
-
-            Product product = _mapper.Map<Product>(productAddDto);
-            _dbContext.Products.Add(product);
-            _dbContext.SaveChanges();
-
-            return _mapper.Map<ProductDto>(productAddDto);
         }
 
         public async Task<IEnumerable<ProductDto>> ProductsUpdataAsync(IEnumerable<ProductUpdataDto> productsUpdateDto)
@@ -99,31 +84,9 @@ namespace SimpleShopApi.Services
             if (products == null)
                 throw new Exception("Middleware - w8 in progress.\tWrong product");
 
-            foreach (var prod in products)
-            {
-                _dbContext.Products.Update(prod);
-                _dbContext.SaveChanges();
-            }
-
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
-        }
-        public async Task<ProductDto> ProductUpdataAsync(ProductUpdataDto productUpdateDto)
-        {
-            var productDb = _dbContext.Products
-                .Where(x => x.Name == productUpdateDto.Name)
-                .FirstOrDefault();
-
-            if (productDb.Name != productUpdateDto.Name)
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
-
-            productDb.Name = productUpdateDto.Name;
-            productDb.Price = productUpdateDto.Price;
-            productDb.Category = productUpdateDto.Category;
-
-            _dbContext.Products.Update(productDb);
+            _dbContext.Products.UpdateRange(products);
             _dbContext.SaveChanges();
-
-            return _mapper.Map<ProductDto>(productDb);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task ProductsDeleteAsync(IEnumerable<string> names)
@@ -143,18 +106,6 @@ namespace SimpleShopApi.Services
                 throw new Exception("Middleware - w8 in progress.\tNot Found");
 
             _dbContext.Products.RemoveRange(products);
-            _dbContext.SaveChanges();
-        }
-        public async Task ProductDeleteAsync(string name)
-        {
-            var product = _dbContext.Products
-                .Where(x => x.Name == name)
-                .FirstOrDefault();
-
-            if (product.Name != name)
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
-
-            _dbContext.Products.Remove(product);
             _dbContext.SaveChanges();
         }
     }

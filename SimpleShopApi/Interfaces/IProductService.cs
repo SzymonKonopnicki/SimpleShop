@@ -9,14 +9,10 @@ namespace SimpleShopApi.Interfaces
         public Task<ProductDto> ProductGetByNameAsync(string name);
 
         public Task<IEnumerable<ProductDto>> ProductsCreateAsync(IEnumerable<ProductAddDto> addProductsDto);
-        public Task<ProductDto> ProductCreateAsync(ProductAddDto ProductAddDto);
 
         public Task<IEnumerable<ProductDto>> ProductsUpdataAsync(IEnumerable<ProductUpdataDto> updateProductsDto);
-        public Task<ProductDto> ProductUpdataAsync(ProductUpdataDto ProductUpdateDto);
-
 
         public Task ProductsDeleteAsync(IEnumerable<string> names);
-        public Task ProductDeleteAsync(string name);
 
     }
 }

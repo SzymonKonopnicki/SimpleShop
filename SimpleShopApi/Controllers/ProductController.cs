@@ -31,39 +31,22 @@ namespace SimpleShopApi.Controllers
             return Ok(await _service.ProductGetByNameAsync(name));
         }
 
-        [HttpPost("Create/List")]
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<ProductDto>>> ProductsCreate([FromBody] IEnumerable<ProductAddDto> dtos)
         {
             return Ok(await _service.ProductsCreateAsync(dtos));
         }
-        [HttpPost("Create")]
-        public async Task<ActionResult<ProductDto>> ProductCreate([FromBody] ProductAddDto dto)
-        {
-            return Ok(await _service.ProductCreateAsync(dto));
-        }
 
-
-        [HttpPut("Updata/List")]
+        [HttpPut]
         public async Task<ActionResult<IEnumerable<ProductDto>>> ProductsUpdata([FromBody] IEnumerable<ProductUpdataDto> dtos)
         {
             return Ok(await _service.ProductsUpdataAsync(dtos));
         }
-        [HttpPut("Updata")]
-        public async Task<ActionResult<ProductDto>> ProductUpdata([FromBody] ProductUpdataDto dto)
-        {
-            return Ok(await _service.ProductUpdataAsync(dto));
-        }
 
-        [HttpDelete("Delete/List")]
+        [HttpDelete]
         public async Task<ActionResult<IEnumerable<string>>> ProductsDelte([FromBody] IEnumerable<string> names)
         {
             await _service.ProductsDeleteAsync(names);
-            return Ok();
-        }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult<string>> ProductDelete([FromForm] string name)
-        {
-            await _service.ProductDeleteAsync(name);
             return Ok();
         }
     }
