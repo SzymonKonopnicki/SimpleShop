@@ -56,7 +56,6 @@ namespace SimpleShopApi.Services
                 var productDb = _dbContext.Products
                     .Where(x => x.Name == addProductDto.Name)
                     .FirstOrDefault();
-
                 if (productDb == null)
                     products.Add(_mapper.Map<Product>(addProductDto));
             }
@@ -77,11 +76,11 @@ namespace SimpleShopApi.Services
                 var productDb = _dbContext.Products
                     .Where(x => x.Name == updateProductDto.Name)
                     .FirstOrDefault();
-                if (updateProductDto.Name == productDb.Name)
+                if (productDb != null)
                     products.Add(_mapper.Map<Product>(updateProductDto));
             }
 
-            if (products == null)
+            if (products.IsNullOrEmpty())
                 throw new Exception("Middleware - w8 in progress.\tWrong product");
 
             _dbContext.Products.UpdateRange(products);
@@ -97,12 +96,11 @@ namespace SimpleShopApi.Services
                 var productDb = _dbContext.Products
                     .Where(x => x.Name == name)
                     .FirstOrDefault();
-
-                if (name == productDb.Name)
+                if (name != null)
                     products.Add(productDb);
             }
 
-            if (products == null)
+            if (products.IsNullOrEmpty())
                 throw new Exception("Middleware - w8 in progress.\tNot Found");
 
             _dbContext.Products.RemoveRange(products);
