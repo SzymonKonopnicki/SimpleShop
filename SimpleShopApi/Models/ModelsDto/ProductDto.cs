@@ -1,8 +1,16 @@
-﻿namespace SimpleShopApi.Models.DtoModels
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+
+namespace SimpleShopApi.Models.DtoModels
 {
     public class ProductDto
     {
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = char.ToUpper(value[0] + value.Substring(1)); }
+        }
         public decimal Price { get; set; }
 
     }

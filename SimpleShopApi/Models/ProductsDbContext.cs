@@ -31,7 +31,7 @@ public partial class ProductsDbContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Name)
-                .HasMaxLength(100)
+                .HasMaxLength(25)
                 .IsUnicode(false);
             entity.Property(e => e.Price).HasColumnType("money");
         });

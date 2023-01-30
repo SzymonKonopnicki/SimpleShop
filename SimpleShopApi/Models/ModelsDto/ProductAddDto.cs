@@ -1,17 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimpleShopApi.Models.DtoModels
 {
     public class ProductAddDto
     {
+        private string name;
         [Required]
-        public string? Name { get; set; }
+        [MaxLength(25)]
+        public string Name
+        {
+            get { return name.ToLower(); }
+            set { name = value; }
+        }
 
         [Required]
         public decimal? Price { get; set; }
 
+        private string category;
         [Required]
-        public string? Category { get; set; }
+        [MaxLength(100)]
+        public string? Category
+        {
+            get { return category.ToLower(); }
+            set { category = value; }
+        }
+
 
     }
 }
