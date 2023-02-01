@@ -9,7 +9,7 @@ namespace SimpleShopApi.Models.DtoModels
         public string Name
         {
             get { return name; }
-            set { name = char.ToUpper(value[0] + value.Substring(1)); }
+            set { name = char.ToUpper(value[0]) + value.Substring(1); }
         }
         public decimal Price { get; set; }
 
