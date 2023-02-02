@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SimpleShopApi.Interfaces;
+using SimpleShopApi.Middlewares;
 using SimpleShopApi.Models;
 using SimpleShopApi.Services;
 
@@ -14,6 +15,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IProductService, ProductService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
 app.UseHttpsRedirection();
 

@@ -3,6 +3,7 @@ using SimpleShopApi.Interfaces;
 using SimpleShopApi.Models.DtoModels;
 using SimpleShopApi.Models;
 using Microsoft.IdentityModel.Tokens;
+using SimpleShopApi.Exceptions;
 
 namespace SimpleShopApi.Services
 {
@@ -21,7 +22,7 @@ namespace SimpleShopApi.Services
         {
             List<Product> productsDb = _dbContext.Products.ToList();
             if (productsDb == null)
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
+                throw new NotFoundException("Product not found.");
 
             return _mapper.Map<IEnumerable<ProductDto>>(productsDb);
         }
@@ -32,7 +33,7 @@ namespace SimpleShopApi.Services
                 .FirstOrDefault();
 
             if (productDb == null)
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
+                throw new NotFoundException("Product not found.");
 
             return _mapper.Map<ProductDto>(productDb);
         }
@@ -43,7 +44,7 @@ namespace SimpleShopApi.Services
                 .FirstOrDefault();
 
             if (productDb == null)
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
+                throw new NotFoundException("Product not found.");
 
             return _mapper.Map<ProductDto>(productDb);
         }
@@ -61,7 +62,7 @@ namespace SimpleShopApi.Services
             }
 
             if (products.IsNullOrEmpty())
-                throw new Exception("Middleware - w8 in progress.\tWrong product");
+                throw new NotFoundException("Product not found.");
 
             _dbContext.Products.AddRange(products);
             _dbContext.SaveChanges();
@@ -81,7 +82,7 @@ namespace SimpleShopApi.Services
             }
 
             if (products.IsNullOrEmpty())
-                throw new Exception("Middleware - w8 in progress.\tWrong product");
+                throw new NotFoundException("Product not found.");
 
             _dbContext.Products.UpdateRange(products);
             _dbContext.SaveChanges();
@@ -101,7 +102,7 @@ namespace SimpleShopApi.Services
             }
 
             if (products.IsNullOrEmpty())
-                throw new Exception("Middleware - w8 in progress.\tNot Found");
+                throw new NotFoundException("Product not found.");
 
             _dbContext.Products.RemoveRange(products);
             _dbContext.SaveChanges();
