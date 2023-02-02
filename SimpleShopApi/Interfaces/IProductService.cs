@@ -1,5 +1,4 @@
-﻿using SimpleShopApi.Models.DtoModels;
-
+﻿
 namespace SimpleShopApi.Interfaces
 {
     public interface IProductService

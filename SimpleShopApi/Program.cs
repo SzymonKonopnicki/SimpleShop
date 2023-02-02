@@ -1,9 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using SimpleShopApi.Interfaces;
-using SimpleShopApi.Middlewares;
-using SimpleShopApi.Models;
-using SimpleShopApi.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

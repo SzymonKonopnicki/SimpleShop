@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace SimpleShopApi.Models;
 
 public partial class Product

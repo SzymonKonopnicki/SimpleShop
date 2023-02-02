@@ -1,5 +1,4 @@
-﻿using SimpleShopApi.Exceptions;
-
+﻿
 namespace SimpleShopApi.Middlewares
 {
     public class ErrorHandlingMiddleware : IMiddleware

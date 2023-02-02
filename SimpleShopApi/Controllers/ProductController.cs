@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SimpleShopApi.Interfaces;
-using SimpleShopApi.Models.DtoModels;
-using System.Data;
-
-namespace SimpleShopApi.Controllers
+﻿namespace SimpleShopApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

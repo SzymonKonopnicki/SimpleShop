@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using SimpleShopApi.Models;
-using SimpleShopApi.Models.DtoModels;
-
-namespace SimpleShopApi
+﻿namespace SimpleShopApi
 {
     public class AutoMapperProfiles : Profile
     {

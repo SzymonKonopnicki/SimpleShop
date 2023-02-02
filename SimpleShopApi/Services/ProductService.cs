@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using SimpleShopApi.Interfaces;
-using SimpleShopApi.Models.DtoModels;
-using SimpleShopApi.Models;
-using Microsoft.IdentityModel.Tokens;
-using SimpleShopApi.Exceptions;
+﻿
 
 namespace SimpleShopApi.Services
 {
@@ -20,7 +15,7 @@ namespace SimpleShopApi.Services
 
         public async Task<IEnumerable<ProductDto>> ProductsGetAllAsync()
         {
-            List<Product> productsDb = _dbContext.Products.ToList();
+            List<Product> productsDb = await _dbContext.Products.ToListAsync();
             if (productsDb == null)
                 throw new NotFoundException("Product not found.");
 
@@ -28,9 +23,9 @@ namespace SimpleShopApi.Services
         }
         public async Task<ProductDto> ProductGetByIdAsync(int id)
         {
-            Product productDb = _dbContext.Products
+            Product productDb = await _dbContext.Products
                 .Where(x => x.ProductId == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (productDb == null)
                 throw new NotFoundException("Product not found.");
@@ -39,9 +34,9 @@ namespace SimpleShopApi.Services
         }
         public async Task<ProductDto> ProductGetByNameAsync(string name)
         {
-            Product productDb = _dbContext.Products
+            Product productDb = await _dbContext.Products
                 .Where(x => x.Name == name)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (productDb == null)
                 throw new NotFoundException("Product not found.");
@@ -54,9 +49,9 @@ namespace SimpleShopApi.Services
             var products = new List<Product>();
             foreach (var addProductDto in productsAddDto)
             {
-                var productDb = _dbContext.Products
+                var productDb = await _dbContext.Products
                     .Where(x => x.Name == addProductDto.Name)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
                 if (productDb == null)
                     products.Add(_mapper.Map<Product>(addProductDto));
             }
@@ -64,8 +59,8 @@ namespace SimpleShopApi.Services
             if (products.IsNullOrEmpty())
                 throw new NotFoundException("Product not found.");
 
-            _dbContext.Products.AddRange(products);
-            _dbContext.SaveChanges();
+            await _dbContext.Products.AddRangeAsync(products);
+            await _dbContext.SaveChangesAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
@@ -74,9 +69,9 @@ namespace SimpleShopApi.Services
             var products = new List<Product>();
             foreach (var updateProductDto in productsUpdateDto)
             {
-                var productDb = _dbContext.Products
+                var productDb = await _dbContext.Products
                     .Where(x => x.Name == updateProductDto.Name)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
                 if (productDb != null)
                     products.Add(_mapper.Map<Product>(updateProductDto));
             }
@@ -84,8 +79,8 @@ namespace SimpleShopApi.Services
             if (products.IsNullOrEmpty())
                 throw new NotFoundException("Product not found.");
 
-            _dbContext.Products.UpdateRange(products);
-            _dbContext.SaveChanges();
+            await _dbContext.Products.AddRangeAsync(products);
+            await _dbContext.SaveChangesAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
@@ -94,9 +89,9 @@ namespace SimpleShopApi.Services
             var products = new List<Product>();
             foreach (var name in names)
             {
-                var productDb = _dbContext.Products
+                var productDb = await _dbContext.Products
                     .Where(x => x.Name == name)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
                 if (name != null)
                     products.Add(productDb);
             }
@@ -104,8 +99,8 @@ namespace SimpleShopApi.Services
             if (products.IsNullOrEmpty())
                 throw new NotFoundException("Product not found.");
 
-            _dbContext.Products.RemoveRange(products);
-            _dbContext.SaveChanges();
+            await _dbContext.Products.AddRangeAsync(products);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

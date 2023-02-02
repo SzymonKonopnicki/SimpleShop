@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SimpleShopApi.Models;
+﻿namespace SimpleShopApi.Models;
 
 public partial class User
 {
