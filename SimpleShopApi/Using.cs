@@ -10,3 +10,5 @@ global using SimpleShopApi.Models.DtoModels;
 global using SimpleShopApi.Services;
 global using System.ComponentModel.DataAnnotations;
 global using System.Data;
+global using NLog;
+global using NLog.Web;

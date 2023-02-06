@@ -3,6 +3,11 @@ namespace SimpleShopApi.Middlewares
 {
     public class ErrorHandlingMiddleware : IMiddleware
     {
+		private readonly ILogger<ErrorHandlingMiddleware> _logger;
+		public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger)
+		{
+			_logger = logger;
+		}
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
 			try
@@ -11,14 +16,15 @@ namespace SimpleShopApi.Middlewares
 			}
 			catch (NotFoundException ex)
 			{
+				_logger.LogInformation(ex.Message);
 				context.Response.StatusCode = 404;
 				await context.Response.WriteAsync("Not found.\nTry again with different arguments");
-				Console.WriteLine("Stack trace:\n" + ex.StackTrace + "End stack trace.");
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				_logger.LogError(ex.Message);
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Not rdy.\nTry again later.");
+                await context.Response.WriteAsync("Something went wrong.\nTry again later.");
             }
         }
     }

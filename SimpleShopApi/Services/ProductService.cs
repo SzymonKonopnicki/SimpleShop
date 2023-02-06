@@ -6,11 +6,13 @@ namespace SimpleShopApi.Services
     {
         private readonly ProductsDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProductService> _logger;
 
-        public ProductService(ProductsDbContext dbContext, IMapper mapper)
+        public ProductService(ProductsDbContext dbContext, IMapper mapper, ILogger<ProductService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<ProductDto>> ProductsGetAllAsync()
@@ -46,6 +48,8 @@ namespace SimpleShopApi.Services
 
         public async Task<IEnumerable<ProductDto>> ProductsCreateAsync(IEnumerable<ProductAddDto> productsAddDto)
         {
+            _logger.LogWarning("Initiation of changes in the database.");
+
             var products = new List<Product>();
             foreach (var addProductDto in productsAddDto)
             {
@@ -61,11 +65,15 @@ namespace SimpleShopApi.Services
 
             await _dbContext.Products.AddRangeAsync(products);
             await _dbContext.SaveChangesAsync();
+            _logger.LogWarning("Changes saved in Db.");
+
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task<IEnumerable<ProductDto>> ProductsUpdataAsync(IEnumerable<ProductUpdataDto> productsUpdateDto)
         {
+            _logger.LogWarning("Initiation of changes in the database.");
+
             var products = new List<Product>();
             foreach (var updateProductDto in productsUpdateDto)
             {
@@ -81,11 +89,14 @@ namespace SimpleShopApi.Services
 
             await _dbContext.Products.AddRangeAsync(products);
             await _dbContext.SaveChangesAsync();
+            _logger.LogWarning("Changes saved in Db.");
+
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task ProductsDeleteAsync(IEnumerable<string> names)
         {
+            _logger.LogWarning("Initiation of changes in the database.");
             var products = new List<Product>();
             foreach (var name in names)
             {
@@ -101,6 +112,7 @@ namespace SimpleShopApi.Services
 
             await _dbContext.Products.AddRangeAsync(products);
             await _dbContext.SaveChangesAsync();
+            _logger.LogWarning("Changes saved in Db.");
         }
     }
 }
