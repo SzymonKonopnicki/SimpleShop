@@ -1,6 +1,4 @@
-﻿
-
-namespace SimpleShopApi.Services
+﻿namespace SimpleShopApi.Services
 {
     public class ProductService : IProductService
     {

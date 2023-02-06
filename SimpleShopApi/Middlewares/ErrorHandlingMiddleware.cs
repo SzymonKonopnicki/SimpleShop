@@ -1,5 +1,4 @@
-﻿
-namespace SimpleShopApi.Middlewares
+﻿namespace SimpleShopApi.Middlewares
 {
     public class ErrorHandlingMiddleware : IMiddleware
     {
