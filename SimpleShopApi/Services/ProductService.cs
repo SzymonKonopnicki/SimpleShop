@@ -55,7 +55,10 @@
                     .Where(x => x.Name == addProductDto.Name)
                     .FirstOrDefaultAsync();
                 if (productDb == null)
+                {
+                    StringToLower(addProductDto);
                     products.Add(_mapper.Map<Product>(addProductDto));
+                }
             }
 
             if (products.IsNullOrEmpty())
@@ -68,6 +71,7 @@
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
+
         public async Task<IEnumerable<ProductDto>> ProductsUpdataAsync(IEnumerable<ProductUpdataDto> productsUpdateDto)
         {
             _logger.LogWarning("Initiation of changes in the database.");
@@ -79,7 +83,10 @@
                     .Where(x => x.Name == updateProductDto.Name)
                     .FirstOrDefaultAsync();
                 if (productDb != null)
+                {
+                    StringToLower(productDb);
                     products.Add(_mapper.Map<Product>(updateProductDto));
+                }
             }
 
             if (products.IsNullOrEmpty())
@@ -102,7 +109,10 @@
                     .Where(x => x.Name == name)
                     .FirstOrDefaultAsync();
                 if (name != null)
+                {
+                    StringToLower(productDb);
                     products.Add(productDb);
+                }
             }
 
             if (products.IsNullOrEmpty())
@@ -111,6 +121,18 @@
             await _dbContext.Products.AddRangeAsync(products);
             await _dbContext.SaveChangesAsync();
             _logger.LogWarning("Changes saved in Db.");
+        }
+
+
+        private static void StringToLower(Product productDb)
+        {
+            productDb.Name = productDb.Name.ToLower();
+            productDb.Name = productDb.Category.ToLower();
+        }
+        private static void StringToLower(ProductAddDto addProductDto)
+        {
+            addProductDto.Name = addProductDto.Name.ToLower();
+            addProductDto.Category = addProductDto.Category.ToLower();
         }
     }
 }
