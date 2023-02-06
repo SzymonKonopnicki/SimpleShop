@@ -46,9 +46,11 @@ public partial class ProductsDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Mail)
                 .HasMaxLength(255)
+                .IsRequired()
                 .IsUnicode(false);
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
+                .IsRequired()
                 .IsUnicode(false);
             entity.Property(e => e.UserRoleId).HasColumnName("UserRoleID");
 
@@ -64,7 +66,8 @@ public partial class ProductsDbContext : DbContext
 
             entity.Property(e => e.RoleId).ValueGeneratedNever();
             entity.Property(e => e.RoleName)
-                .HasMaxLength(255)
+            .HasMaxLength(255
+            ).IsRequired()
                 .IsUnicode(false);
         });
 

@@ -1,3 +1,5 @@
+using System.Reflection;
+
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
@@ -16,6 +18,7 @@ try
 
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

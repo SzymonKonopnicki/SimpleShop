@@ -1,30 +1,18 @@
 ﻿
-
 namespace SimpleShopApi.Models.DtoModels
 {
     public class ProductAddDto
     {
-        private string name;
         [Required]
         [MaxLength(25)]
-        public string Name
-        {
-            get { return name.ToLower(); }
-            set { name = value; }
-        }
+        public string Name { get; set; }
 
         [Required]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
-        private string category;
         [Required]
         [MaxLength(100)]
-        public string? Category
-        {
-            get { return category.ToLower(); }
-            set { category = value; }
-        }
-
+        public string Category { get; set; }
 
     }
 }
