@@ -11,8 +11,8 @@ using SimpleShopApi.Models;
 namespace SimpleShopApi.Migrations
 {
     [DbContext(typeof(ProductsDbContext))]
-    [Migration("20230201201057_SimpleShopDB-v1")]
-    partial class SimpleShopDBv1
+    [Migration("20230209193038_Simple-ShopDB-V1")]
+    partial class SimpleShopDBV1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,8 +47,7 @@ namespace SimpleShopApi.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
-                    b.HasKey("ProductId")
-                        .HasName("PK__Products__B40CC6CDEACAAB30");
+                    b.HasKey("ProductId");
 
                     b.ToTable("Products");
                 });
@@ -62,13 +61,11 @@ namespace SimpleShopApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
@@ -89,45 +86,40 @@ namespace SimpleShopApi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("UserRoleID");
 
-                    b.HasKey("UserId")
-                        .HasName("PK__Users__1788CC4CF929AC8E");
+                    b.HasKey("UserId");
 
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SimpleShopApi.Models.UsersRole", b =>
+            modelBuilder.Entity("SimpleShopApi.Models.UserRole", b =>
                 {
-                    b.Property<int>("RoleId")
+                    b.Property<int>("UserRoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("RoleName")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserRoleId"));
+
+                    b.Property<string>("UserRoleName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("RoleId")
-                        .HasName("PK__Users__3214EC274DB4A810");
+                    b.HasKey("UserRoleId");
 
                     b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("SimpleShopApi.Models.User", b =>
                 {
-                    b.HasOne("SimpleShopApi.Models.UsersRole", "UserRole")
-                        .WithMany("Users")
+                    b.HasOne("SimpleShopApi.Models.UserRole", "UserRole")
+                        .WithMany()
                         .HasForeignKey("UserRoleId")
-                        .IsRequired()
-                        .HasConstraintName("FK__Users__UserRoleI__6E01572D");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("SimpleShopApi.Models.UsersRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

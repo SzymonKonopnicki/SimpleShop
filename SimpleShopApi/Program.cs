@@ -1,3 +1,7 @@
+using FluentValidation.AspNetCore;
+using SimpleShopApi;
+using SimpleShopApi.Validators;
+using System;
 using System.Reflection;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -14,16 +18,30 @@ try
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddFluentValidation(x =>
+    {
+        x.RegisterValidatorsFromAssemblyContaining<Program>();
+    });
 
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IAccountService, AccoundService>();
+    builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterDtoValidator>();
+    builder.Services.AddTransient<DataSeeder>();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
     var app = builder.Build();
+
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using (var scope = scopedFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<DataSeeder>();
+        service.Seeds();
+    }
+
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())

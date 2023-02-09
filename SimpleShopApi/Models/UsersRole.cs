@@ -1,12 +1,10 @@
 ﻿namespace SimpleShopApi.Models;
 
-public partial class UsersRole
+public class UserRole
 {
     [Key]
-    public int RoleId { get; set; }
+    public int UserRoleId { get; set; }
 
     [Required]
-    public string RoleName { get; set; }
-
-    public virtual ICollection<User> Users { get; } = new List<User>();
+    public string UserRoleName { get; set; }
 }

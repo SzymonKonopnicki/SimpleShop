@@ -2,7 +2,7 @@
 
 namespace SimpleShopApi.Models;
 
-public partial class User
+public class User
 {
     [Key]
     public int UserId { get; set; }
@@ -19,7 +19,7 @@ public partial class User
     public string Password { get; set; }
 
     [ForeignKey("UserRole")]
-    public int UserRoleId { get; set; } = 1;
+    public int UserRoleId { get; set; }
 
-    public virtual UsersRole UserRole { get; set; } = null!;
+    public virtual UserRole UserRole { get; set; }
 }

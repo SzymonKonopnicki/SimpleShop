@@ -5,7 +5,7 @@
 namespace SimpleShopApi.Migrations
 {
     /// <inheritdoc />
-    public partial class SimpleShopDBv1 : Migration
+    public partial class SimpleShopDBV1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,19 +22,20 @@ namespace SimpleShopApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Products__B40CC6CDEACAAB30", x => x.ProductId);
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UsersRoles",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    RoleName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
+                    UserRoleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserRoleName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Users__3214EC274DB4A810", x => x.RoleId);
+                    table.PrimaryKey("PK_UsersRoles", x => x.UserRoleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,20 +44,21 @@ namespace SimpleShopApi.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LastName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    FirstName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    FirstName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Mail = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     Password = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     UserRoleID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Users__1788CC4CF929AC8E", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK__Users__UserRoleI__6E01572D",
+                        name: "FK_Users_UsersRoles_UserRoleID",
                         column: x => x.UserRoleID,
                         principalTable: "UsersRoles",
-                        principalColumn: "RoleId");
+                        principalColumn: "UserRoleId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

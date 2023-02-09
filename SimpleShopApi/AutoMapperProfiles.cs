@@ -1,4 +1,5 @@
-﻿namespace SimpleShopApi
+﻿
+namespace SimpleShopApi
 {
     public class AutoMapperProfiles : Profile
     {
@@ -8,6 +9,9 @@
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Product, ProductUpdataDto>().ReverseMap();
             CreateMap<ProductDto, ProductAddDto>().ReverseMap();
+
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserRegisterDto>().ReverseMap();
         }
     }
 }

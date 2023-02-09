@@ -44,8 +44,7 @@ namespace SimpleShopApi.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
-                    b.HasKey("ProductId")
-                        .HasName("PK__Products__B40CC6CDEACAAB30");
+                    b.HasKey("ProductId");
 
                     b.ToTable("Products");
                 });
@@ -84,45 +83,40 @@ namespace SimpleShopApi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("UserRoleID");
 
-                    b.HasKey("UserId")
-                        .HasName("PK__Users__1788CC4CF929AC8E");
+                    b.HasKey("UserId");
 
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SimpleShopApi.Models.UsersRole", b =>
+            modelBuilder.Entity("SimpleShopApi.Models.UserRole", b =>
                 {
-                    b.Property<int>("RoleId")
+                    b.Property<int>("UserRoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("RoleName")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserRoleId"));
+
+                    b.Property<string>("UserRoleName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("RoleId")
-                        .HasName("PK__Users__3214EC274DB4A810");
+                    b.HasKey("UserRoleId");
 
                     b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("SimpleShopApi.Models.User", b =>
                 {
-                    b.HasOne("SimpleShopApi.Models.UsersRole", "UserRole")
-                        .WithMany("Users")
+                    b.HasOne("SimpleShopApi.Models.UserRole", "UserRole")
+                        .WithMany()
                         .HasForeignKey("UserRoleId")
-                        .IsRequired()
-                        .HasConstraintName("FK__Users__UserRoleI__6E01572D");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("SimpleShopApi.Models.UsersRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
