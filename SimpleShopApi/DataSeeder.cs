@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using SimpleShopApi.Entities;
 
 namespace SimpleShopApi
 {

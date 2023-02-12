@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SimpleShopApi.Models;
+namespace SimpleShopApi.Entities;
 
 public class User
 {

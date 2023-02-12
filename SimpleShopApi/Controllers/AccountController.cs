@@ -1,4 +1,6 @@
 ﻿
+using SimpleShopApi.Entities;
+
 namespace SimpleShopApi.Controllers
 {
     [ApiController]

@@ -1,6 +1,4 @@
-﻿
-
-namespace SimpleShopApi.Models;
+﻿namespace SimpleShopApi.Entities;
 
 public partial class ProductsDbContext : DbContext
 {

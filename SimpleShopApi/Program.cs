@@ -23,6 +23,8 @@ try
         x.RegisterValidatorsFromAssemblyContaining<Program>();
     });
 
+
+
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IAccountService, AccoundService>();

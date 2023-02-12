@@ -1,4 +1,6 @@
-﻿namespace SimpleShopApi.Services
+﻿using SimpleShopApi.Entities;
+
+namespace SimpleShopApi.Services
 {
     public class ProductService : IProductService
     {

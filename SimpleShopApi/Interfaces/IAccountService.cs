@@ -1,4 +1,6 @@
-﻿namespace SimpleShopApi.Interfaces
+﻿using SimpleShopApi.Entities;
+
+namespace SimpleShopApi.Interfaces
 {
     public interface IAccountService
     {
