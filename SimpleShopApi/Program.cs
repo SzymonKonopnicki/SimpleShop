@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using SimpleShopApi;
 using SimpleShopApi.Validators;
 using System;
@@ -18,14 +19,14 @@ try
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-    builder.Services.AddControllers().AddFluentValidation(x =>
-    {
+    builder.Services.AddControllers().AddFluentValidation(x => {
         x.RegisterValidatorsFromAssemblyContaining<Program>();
     });
 
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IAccountService, AccoundService>();
+    builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
     builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterDtoValidator>();
     builder.Services.AddTransient<DataSeeder>();
 

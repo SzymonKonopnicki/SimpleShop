@@ -30,7 +30,7 @@ namespace SimpleShopApi.Controllers
             return Ok(list);
         }
 
-        //USER ROLE SECTION
+        //USER ROLE SECTION FOR CODEING PORPOSE 
         [HttpGet]
         [Route("UsersRole")]
         public ActionResult<List<UserRole>> UsersRoleGet()
@@ -39,6 +39,5 @@ namespace SimpleShopApi.Controllers
 
             return Ok(list);
         }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace SimpleShopApi.Services
@@ -8,11 +9,14 @@ namespace SimpleShopApi.Services
         private readonly ProductsDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILogger<AccoundService> _logger;
-        public AccoundService(ProductsDbContext dbContext, IMapper mapper, ILogger<AccoundService> logger)
+        private readonly IPasswordHasher<User> _hasher;
+
+        public AccoundService(ProductsDbContext dbContext, IMapper mapper, ILogger<AccoundService> logger, IPasswordHasher<User> hasger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _logger = logger;
+            _hasher = hasger;
         }
         public async Task<UserDto> UserRegisterAsync(UserRegisterDto registerDto)
         {
@@ -20,7 +24,8 @@ namespace SimpleShopApi.Services
             var user = new User();
 
             user = _mapper.Map<User>(registerDto);
-            user.UserRoleId = 3; 
+            user.UserRoleId = 3;
+            user.Password = _hasher.HashPassword(user, user.Password);
 
             _dbContext.Users.AddAsync(user);
             _dbContext.SaveChangesAsync();
@@ -29,6 +34,7 @@ namespace SimpleShopApi.Services
             return _mapper.Map<UserDto>(user);
         }
 
+        //USER ROLE SECTION FOR CODEING PORPOSE 
         public Task<List<User>> UsersAsync()
         {
             var users = _dbContext.Users
