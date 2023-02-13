@@ -1,9 +1,11 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using SimpleShopApi;
+using SimpleShopApi.Entities;
 using SimpleShopApi.Validators;
 using System;
 using System.Reflection;
+using System.Text;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -11,7 +13,9 @@ logger.Debug("init main");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var authenticationSettings = new AuthenticationSettings();
 
+    builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
     // Add services to the container.
 
     builder.Services.AddDbContext<ProductsDbContext>(connection =>
@@ -24,12 +28,29 @@ try
     });
 
 
-
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IAccountService, AccoundService>();
     builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+    builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = "Bearer";
+        x.DefaultScheme = "Bearer";
+        x.DefaultChallengeScheme = "Bearer";
+    }).AddJwtBearer(y =>
+    {
+        y.RequireHttpsMetadata = false;
+        y.SaveToken = true;
+        y.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = authenticationSettings.Issuer,
+            ValidAudience = authenticationSettings.Issuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.Key)),
+        };
+    });
+
     builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterDtoValidator>();
+    builder.Services.AddValidatorsFromAssemblyContaining<UserLoginDtoValidator>();
     builder.Services.AddTransient<DataSeeder>();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -54,7 +75,7 @@ try
     }
     app.UseMiddleware<ErrorHandlingMiddleware>();
 
-
+    app.UseAuthentication();
     app.UseHttpsRedirection();
 
     app.UseAuthorization();

@@ -1,4 +1,4 @@
-﻿namespace SimpleShopApi.Models;
+﻿namespace SimpleShopApi.Entities;
 
 public class UserRole
 {

@@ -17,13 +17,19 @@ namespace SimpleShopApi.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<ActionResult> UserRegister(UserRegisterDto registerDto)
+        public async Task<ActionResult> UserRegister([FromBody]UserRegisterDto registerDto)
         {
             var userDto = await _service.UserRegisterAsync(registerDto);
 
             return Ok("User register account complete successfully.");
         }
 
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> UserLoging([FromBody]UserLoginDto loginDto)
+        {
+            string token = await _service.GenerateJwt(loginDto);
+        }
         [HttpGet]
         public async Task<ActionResult<List<User>>> UserGetALL()
         {

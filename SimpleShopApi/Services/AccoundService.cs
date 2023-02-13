@@ -19,6 +19,8 @@ namespace SimpleShopApi.Services
             _logger = logger;
             _hasher = hasger;
         }
+
+
         public async Task<UserDto> UserRegisterAsync(UserRegisterDto registerDto)
         {
             _logger.LogWarning("Initiation of changes in the database.");
@@ -33,6 +35,11 @@ namespace SimpleShopApi.Services
             _logger.LogWarning("Changes saved in Db.");
 
             return _mapper.Map<UserDto>(user);
+        }
+
+        public Task<string> GenerateJwt(UserLoginDto loginDto)
+        {
+            throw new NotImplementedException();
         }
 
         //USER ROLE SECTION FOR CODEING PORPOSE 
