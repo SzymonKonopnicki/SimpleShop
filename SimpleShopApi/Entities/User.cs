@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SimpleShopApi.Entities;
+﻿namespace SimpleShopApi.Entities;
 
 public class User
 {

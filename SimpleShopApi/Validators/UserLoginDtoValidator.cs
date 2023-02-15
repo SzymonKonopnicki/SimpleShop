@@ -1,5 +1,4 @@
-﻿using SimpleShopApi.Entities;
-
+﻿
 namespace SimpleShopApi.Validators
 {
     public class UserLoginDtoValidator : AbstractValidator<UserLoginDto>
@@ -12,15 +11,7 @@ namespace SimpleShopApi.Validators
 
             RuleFor(x => x.Mail)
                 .EmailAddress()
-                .NotEmpty()
-                .Custom((value, context) =>
-                {
-                    var dbValue = _dbContext
-                        .Users
-                        .Any(x => x.Mail == value);
-                    if (!dbValue)
-                        context.AddFailure("Invalid data.");
-                });
+                .NotEmpty();
 
             RuleFor(x => x.Password)
                 .NotEmpty();

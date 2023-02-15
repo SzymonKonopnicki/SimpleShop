@@ -1,6 +1,4 @@
-﻿using SimpleShopApi.Validators;
-using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace SimpleShopApi.Models.ModelsDto
 {
     public class UserRegisterDto

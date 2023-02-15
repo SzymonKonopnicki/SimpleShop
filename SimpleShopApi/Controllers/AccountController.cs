@@ -1,10 +1,8 @@
-﻿
-using SimpleShopApi.Entities;
-
-namespace SimpleShopApi.Controllers
+﻿namespace SimpleShopApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _service;
@@ -15,8 +13,19 @@ namespace SimpleShopApi.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        [Authorize(Roles = "admin,manager")]
+        //[AllowAnonymous]
+        public async Task<ActionResult<List<User>>> UserGetALL()
+        {
+            var list = await _service.UsersAsync();
+
+            return Ok(list);
+        }
+
         [HttpPost]
         [Route("Register")]
+        [AllowAnonymous]
         public async Task<ActionResult> UserRegister([FromBody]UserRegisterDto registerDto)
         {
             var userDto = await _service.UserRegisterAsync(registerDto);
@@ -26,21 +35,17 @@ namespace SimpleShopApi.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> UserLoging([FromBody]UserLoginDto loginDto)
+        [AllowAnonymous]
+        public ActionResult UserLoging([FromBody]UserLoginDto loginDto)
         {
-            string token = await _service.GenerateJwt(loginDto);
-        }
-        [HttpGet]
-        public async Task<ActionResult<List<User>>> UserGetALL()
-        {
-            var list = await _service.UsersAsync();
+            string token =  _service.GenerateJwt(loginDto);
 
-            return Ok(list);
+            return Ok(token);
         }
 
-        //USER ROLE SECTION FOR CODEING PORPOSE 
         [HttpGet]
         [Route("UsersRole")]
+        [Authorize(Roles = "admin")]
         public ActionResult<List<UserRole>> UsersRoleGet()
         {
             var list = _dbContext.UsersRoles.ToList();

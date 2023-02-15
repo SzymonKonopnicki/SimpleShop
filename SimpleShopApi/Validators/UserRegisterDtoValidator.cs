@@ -1,6 +1,4 @@
 ﻿
-using SimpleShopApi.Entities;
-
 namespace SimpleShopApi.Validators
 {
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>

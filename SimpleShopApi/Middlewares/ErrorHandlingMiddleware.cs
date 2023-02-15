@@ -13,7 +13,13 @@
 			{
 				await next.Invoke(context);
 			}
-			catch (NotFoundException ex)
+			catch (BadRequestException ex)
+			{
+                _logger.LogInformation(ex.Message);
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Invalid date.\nTry again with different arguments");
+            }
+            catch (NotFoundException ex)
 			{
 				_logger.LogInformation(ex.Message);
 				context.Response.StatusCode = 404;

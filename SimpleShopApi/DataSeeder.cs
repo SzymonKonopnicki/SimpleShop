@@ -1,6 +1,4 @@
-﻿using System.Data;
-using SimpleShopApi.Entities;
-
+﻿
 namespace SimpleShopApi
 {
     public class DataSeeder

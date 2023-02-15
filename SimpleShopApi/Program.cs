@@ -1,11 +1,3 @@
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
-using SimpleShopApi;
-using SimpleShopApi.Entities;
-using SimpleShopApi.Validators;
-using System;
-using System.Reflection;
-using System.Text;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -27,7 +19,7 @@ try
         x.RegisterValidatorsFromAssemblyContaining<Program>();
     });
 
-
+    builder.Services.AddSingleton(authenticationSettings);
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IAccountService, AccoundService>();
